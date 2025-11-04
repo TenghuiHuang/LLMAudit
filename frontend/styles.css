@@ -1,0 +1,241 @@
+:root {
+  --bg: #f5f6fa;
+  --fg: #2f3640;
+  --accent: #00a8ff;
+  --card: #e84118;
+}
+[data-theme="dark"] {
+  --bg: #2f3640;
+  --fg: #f5f6fa;
+  --card: #c23616;
+}
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+  margin: 0;
+}
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 16px;
+}
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+/* .main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+} */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px; /* 加大间距 */
+  align-items: start;
+}
+
+.left, .right {
+  background: rgba(255,255,255,0.6);
+  padding: 12px;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+/* 当屏幕太窄时自动变为上下布局 */
+@media (max-width: 1000px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+  textarea {
+    min-height: 250px;
+  }
+}
+
+
+/* textarea {
+  width: 100%;
+  min-height: 360px;
+  font-family: Consolas, monospace;
+  font-size: 13px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+} */
+
+textarea {
+  width: 100%;
+  box-sizing: border-box; /* ✅ 让 padding 不再撑破容器 */
+  min-height: 360px;
+  font-family: Consolas, monospace;
+  font-size: 13px;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical; /* ✅ 允许上下调整高度，禁止横向拉伸 */
+  max-width: 100%;  /* ✅ 防止超出父容器 */
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.9;
+}
+.results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 10px;
+}
+/* .card {
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--card);
+  color: white;
+  font-weight: bold;
+} */
+/* 警告卡片：白底、红色边框、红色文字 */
+.card {
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: #ffffff;            /* 白底 */
+  color: #c23616;                /* 红色文字 */
+  border: 2px solid #c23616;     /* 红色线框 */
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+/* 标题（冒号前部分）更明显 */
+.card .vuln-title {
+  margin-bottom: 6px;
+  color: #e84118;   /* 更鲜的红色 */
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* 描述（冒号后）为普通文本，行高更大便于阅读 */
+.card .vuln-desc {
+  color: #c23616;
+  font-weight: 500;
+  font-size: 13px;
+  white-space: pre-wrap; /* 保留换行 */
+  opacity: 0.95;
+}
+
+
+footer {
+  text-align: center;
+  margin-top: 20px;
+  color: gray;
+}
+
+
+.login-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--bg);
+}
+
+.login-container {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 300px;
+  text-align: center;
+}
+
+.login-container input {
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.login-container button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.login-container button:hover {
+  opacity: 0.9;
+}
+
+.msg {
+  font-size: 13px;
+  height: 18px;
+}
+.login-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: var(--bg);
+}
+.login-box {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  text-align: center;
+  width: 300px;
+}
+.login-box input {
+  display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+
+.logout-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  cursor: pointer;
+}
+
+.logout-btn:hover {
+  opacity: 0.9;
+}
+
+
+.change-btn {
+  background: #ffb703;
+  color: #222;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.change-btn:hover {
+  background: #fca311;
+}

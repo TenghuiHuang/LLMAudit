@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>LLMAudit 登录</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body class="login-page">
+  <div class="login-box">
+
+    <!-- 登录表单 -->
+    <form id="loginForm">
+      <h2>🔐 登录 LLMAudit</h2>
+      <input type="text" id="loginUsername" placeholder="用户名" required />
+      <input type="password" id="loginPassword" placeholder="密码" required />
+      <button type="submit">登录</button>
+      <button type="button" id="showRegisterBtn">注册新账户</button>
+      <div id="loginMsg"></div>
+    </form>
+
+    <!-- 注册表单，默认隐藏 -->
+    <form id="registerForm" style="display:none;">
+      <h2>📝 注册账户</h2>
+      <input type="text" id="regUsername" placeholder="新用户名" required />
+      <input type="password" id="regPassword" placeholder="新密码" required />
+      <button type="submit">注册</button>
+      <button type="button" id="backToLoginBtn">返回登录</button>
+      <div id="registerMsg"></div>
+    </form>
+
+  </div>
+
+  <script>
+    // 表单切换
+    document.getElementById("showRegisterBtn").addEventListener("click", () => {
+      document.getElementById("loginForm").style.display = "none";
+      document.getElementById("registerForm").style.display = "block";
+    });
+    document.getElementById("backToLoginBtn").addEventListener("click", () => {
+      document.getElementById("loginForm").style.display = "block";
+      document.getElementById("registerForm").style.display = "none";
+    });
+
+    // 登录逻辑
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("loginUsername").value.trim();
+      const password = document.getElementById("loginPassword").value.trim();
+      const msg = document.getElementById("loginMsg");
+      msg.textContent = "";
+
+      if (!username || !password) {
+        msg.textContent = "请输入用户名和密码";
+        msg.style.color = "red";
+        return;
+      }
+
+      try {
+        const resp = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || "登录失败");
+
+        localStorage.setItem("username", data.username);
+        localStorage.setItem("theme", data.theme || "light");
+        localStorage.setItem("token", data.token || `token-${data.username}`);
+        document.documentElement.setAttribute("data-theme", data.theme || "light");
+
+        msg.textContent = "登录成功，正在进入系统...";
+        msg.style.color = "green";
+        await new Promise(resolve => setTimeout(resolve, 800));
+        window.location.replace("/index.html");
+
+      } catch (err) {
+        msg.textContent = err.message;
+        msg.style.color = "red";
+      }
+    });
+
+    // 注册逻辑
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("regUsername").value.trim();
+      const password = document.getElementById("regPassword").value.trim();
+      const msg = document.getElementById("registerMsg");
+      msg.textContent = "";
+
+      if (!username || !password) {
+        msg.textContent = "请输入用户名和密码";
+        msg.style.color = "red";
+        return;
+      }
+
+      try {
+        const resp = await fetch("/api/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await resp.json();
+        if (!resp.ok) throw new Error(data.error || "注册失败");
+
+        msg.textContent = "注册成功！请登录";
+        msg.style.color = "green";
+
+        // 自动切换回登录表单
+        setTimeout(() => {
+          document.getElementById("loginForm").style.display = "block";
+          document.getElementById("registerForm").style.display = "none";
+        }, 1000);
+
+      } catch (err) {
+        msg.textContent = err.message;
+        msg.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# file: backend/requirements.txt
+fastapi
+uvicorn[standard]
+transformers==4.48.0
+torch
+peft
+python-multipart
+pydantic
+aiofiles
+python-dotenv
+starlette
+python-jose[cryptography]

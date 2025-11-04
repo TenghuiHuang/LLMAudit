@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SCAudit Web</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="user-info" class="user-info"></div>
+  <div id="app" class="container">
+    <header class="toolbar">
+      <h1>🧠 LLMAudit—基于LLM的智能合约漏洞检测平台</h1>
+      <div class="toolbar-actions">
+        <button id="themeToggle">🌙 切换主题</button>
+        <button id="changePwdBtn"class="changePwdBtn">修改密码</button>
+      </div>
+    </header>
+
+    <main class="main-grid">
+      <section class="left">
+        <label>合约文本输入</label>
+        <textarea id="inputText" placeholder="粘贴智能合约源码..."></textarea>
+        <div class="controls">
+          <input id="threshold" type="number" step="0.05" min="0" max="1" value="0.5"/>
+          <button id="detectBtn">🔍 检测漏洞</button>
+          <button id="reloadBtn">🔁 重新加载模型</button>
+          <button id="logoutBtn" class="logout-btn">退出登录</button>
+        </div>
+      </section>
+
+      <section class="right">
+        <label>检测结果</label>
+        <div id="progress" class="progress">等待检测...</div>
+        <div id="results" class="results"></div>
+      </section>
+
+    </main>
+
+    <footer>
+      <small>后端 API: <code>/api/predict</code></small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+  async function loadUserInfo() {
+    try {
+      const res = await fetch('/api/userinfo');
+      const data = await res.json();
+      if (data.username) {
+        document.getElementById('user-info').textContent = `欢迎，${data.username}`;
+      } else {
+        document.getElementById('user-info').textContent = '';
+      }
+    } catch (e) {
+      console.error('无法加载用户信息:', e);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', loadUserInfo);
+  </script>
+
+</body>
+</html>
