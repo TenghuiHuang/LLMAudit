@@ -1,5 +1,3 @@
-# file: README.md
-
 ## SCAudit Web - 快速上手
 
 1. 确认 `backend/DEFAULT_BASE` 和 `backend/DEFAULT_ADAPTER` 指向你的本地模型路径。
